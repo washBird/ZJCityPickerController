@@ -7,11 +7,14 @@
 //
 
 #import "ZJCityPickerViewController.h"
+#import "ZJCityPickerViewAdapter.h"
 
 @interface ZJCityPickerViewController ()<UISearchBarDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
+
+@property (nonatomic, strong) ZJCityPickerViewAdapter *adapter;
 
 @end
 
@@ -20,14 +23,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _appearance = [ZJCityPickerAppearance appearance];
+    _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView];
+    _adapter.appearance = _appearance;
     [self setUpUI];
 }
 
 - (void)setUpUI {
     self.navigationItem.title = @"城市选择";
+    
     self.view.backgroundColor = _appearance.backgroundColor;
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLayoutSubviews {
