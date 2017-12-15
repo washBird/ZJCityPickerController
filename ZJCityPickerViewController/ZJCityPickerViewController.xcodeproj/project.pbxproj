@@ -15,6 +15,9 @@
 		841653671FE36C5B009C9CAD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 841653661FE36C5B009C9CAD /* main.m */; };
 		841653711FE36C5B009C9CAD /* ZJCityPickerViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 841653701FE36C5B009C9CAD /* ZJCityPickerViewControllerTests.m */; };
 		8416537C1FE36C5B009C9CAD /* ZJCityPickerViewControllerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8416537B1FE36C5B009C9CAD /* ZJCityPickerViewControllerUITests.m */; };
+		8416538C1FE36E44009C9CAD /* ZJCityPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8416538B1FE36E44009C9CAD /* ZJCityPickerViewController.m */; };
+		8416538F1FE36EB1009C9CAD /* ZJCityPickerAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8416538E1FE36EB1009C9CAD /* ZJCityPickerAppearance.m */; };
+		841653921FE374D5009C9CAD /* UIColor+ZJHexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 841653911FE374D5009C9CAD /* UIColor+ZJHexString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,12 @@
 		841653771FE36C5B009C9CAD /* ZJCityPickerViewControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZJCityPickerViewControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8416537B1FE36C5B009C9CAD /* ZJCityPickerViewControllerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCityPickerViewControllerUITests.m; sourceTree = "<group>"; };
 		8416537D1FE36C5B009C9CAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8416538A1FE36E44009C9CAD /* ZJCityPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCityPickerViewController.h; sourceTree = "<group>"; };
+		8416538B1FE36E44009C9CAD /* ZJCityPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCityPickerViewController.m; sourceTree = "<group>"; };
+		8416538D1FE36EB1009C9CAD /* ZJCityPickerAppearance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCityPickerAppearance.h; sourceTree = "<group>"; };
+		8416538E1FE36EB1009C9CAD /* ZJCityPickerAppearance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCityPickerAppearance.m; sourceTree = "<group>"; };
+		841653901FE374D5009C9CAD /* UIColor+ZJHexString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZJHexString.h"; sourceTree = "<group>"; };
+		841653911FE374D5009C9CAD /* UIColor+ZJHexString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZJHexString.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +110,7 @@
 		841653561FE36C5B009C9CAD /* ZJCityPickerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				841653891FE36E15009C9CAD /* ZJCityPickerViewController */,
 				841653571FE36C5B009C9CAD /* AppDelegate.h */,
 				841653581FE36C5B009C9CAD /* AppDelegate.m */,
 				8416535A1FE36C5B009C9CAD /* ViewController.h */,
@@ -130,6 +140,19 @@
 				8416537D1FE36C5B009C9CAD /* Info.plist */,
 			);
 			path = ZJCityPickerViewControllerUITests;
+			sourceTree = "<group>";
+		};
+		841653891FE36E15009C9CAD /* ZJCityPickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8416538A1FE36E44009C9CAD /* ZJCityPickerViewController.h */,
+				8416538B1FE36E44009C9CAD /* ZJCityPickerViewController.m */,
+				8416538D1FE36EB1009C9CAD /* ZJCityPickerAppearance.h */,
+				8416538E1FE36EB1009C9CAD /* ZJCityPickerAppearance.m */,
+				841653901FE374D5009C9CAD /* UIColor+ZJHexString.h */,
+				841653911FE374D5009C9CAD /* UIColor+ZJHexString.m */,
+			);
+			path = ZJCityPickerViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,8 +289,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8416535C1FE36C5B009C9CAD /* ViewController.m in Sources */,
+				8416538C1FE36E44009C9CAD /* ZJCityPickerViewController.m in Sources */,
+				841653921FE374D5009C9CAD /* UIColor+ZJHexString.m in Sources */,
 				841653671FE36C5B009C9CAD /* main.m in Sources */,
 				841653591FE36C5B009C9CAD /* AppDelegate.m in Sources */,
+				8416538F1FE36EB1009C9CAD /* ZJCityPickerAppearance.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

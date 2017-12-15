@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ZJCityPickerViewController.h"
 
 @interface ViewController ()
 
@@ -16,14 +17,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)pushClick:(UIButton *)sender {
+    ZJCityPickerViewController *pickerController = [[ZJCityPickerViewController alloc] init];
+    [self.navigationController pushViewController:pickerController animated:YES];
 }
 
+- (IBAction)presentClick:(UIButton *)sender {
+    ZJCityPickerViewController *pickerController = [[ZJCityPickerViewController alloc] init];
+    [self presentViewController:pickerController animated:YES completion:nil];
+}
 
 @end
