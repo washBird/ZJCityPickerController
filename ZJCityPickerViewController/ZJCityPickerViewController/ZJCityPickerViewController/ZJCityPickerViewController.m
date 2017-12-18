@@ -36,9 +36,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView];
-    _adapter.appearance = self.appearance;
-    _adapter.dataSource = self.dataSource;
+    [self appearance];
+    [self dataSource];
+    _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView appearance:_appearance dataSource:_dataSource];
     [self setUpUI];
 }
 

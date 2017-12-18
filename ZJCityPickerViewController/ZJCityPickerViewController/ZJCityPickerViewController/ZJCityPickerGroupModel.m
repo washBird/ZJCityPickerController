@@ -7,6 +7,7 @@
 //
 
 #import "ZJCityPickerGroupModel.h"
+#import "ZJCityPickerCity.h"
 
 @implementation ZJCityPickerGroupModel
 
@@ -36,6 +37,48 @@
     model.title = @"历史访问城市";
     model.indexTitle = @"历史";
     return model;
+}
+
++ (NSArray *)normalGroupModelArray {
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pinyin" ascending:YES]];
+    NSArray *allCities = [ZJCityPickerCity defaultCitiesArray];
+    allCities = [allCities sortedArrayUsingDescriptors:sortDescriptors];
+    
+    NSMutableArray *groupArray = [NSMutableArray array];
+    NSMutableArray *tempArray = nil;
+    NSString *initial = nil;
+    ZJCityPickerGroupModel *tempGroup = nil;
+    for (ZJCityPickerCity *city in allCities) {
+        if (initial == nil) {
+            initial = [city.pinyin.uppercaseString substringToIndex:1];
+            tempGroup = [[ZJCityPickerGroupModel alloc] init];
+            tempGroup.title = initial;
+            tempGroup.indexTitle = initial;
+            tempArray = [NSMutableArray arrayWithObject:city];
+        }
+        else {
+            if ([initial isEqualToString:[city.pinyin.uppercaseString substringToIndex:1]]) {
+                [tempArray addObject:city];
+            }
+            else {
+                tempGroup.cityArray = tempArray.copy;
+                [groupArray addObject:tempGroup];
+                
+                initial = [city.pinyin.uppercaseString substringToIndex:1];
+                tempGroup = [[ZJCityPickerGroupModel alloc] init];
+                tempGroup.title = initial;
+                tempGroup.indexTitle = initial;
+                tempArray = [NSMutableArray arrayWithObject:city];
+            }
+        }
+        if (city == allCities.lastObject) {
+            if (groupArray.lastObject != tempGroup) {
+                tempGroup.cityArray = tempArray.copy;
+                [groupArray addObject:tempGroup];
+            }
+        }
+    }
+    return groupArray.copy;
 }
 
 @end

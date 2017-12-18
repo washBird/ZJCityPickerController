@@ -38,4 +38,6 @@ typedef NS_ENUM(NSInteger , ZJCityPickerLocateState) {
 + (ZJCityPickerGroupModel *)hotGroupModel;
 + (ZJCityPickerGroupModel *)historyGroupModel;
 
++ (NSArray *)normalGroupModelArray;
+
 @end

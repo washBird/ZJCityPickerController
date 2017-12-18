@@ -11,6 +11,7 @@
 #import "UIColor+ZJHexString.h"
 #import "ZJCityPickerCollectionHeader.h"
 #import "ZJCityPickerDataSource.h"
+#import "ZJCityPickerCity.h"
 
 @interface ZJCityPickerViewAdapter()
 
@@ -22,19 +23,23 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 
 @implementation ZJCityPickerViewAdapter
 
-+ (ZJCityPickerViewAdapter *)adapterWithTableView:(UITableView *)tableView {
-    return [[ZJCityPickerViewAdapter alloc] initWithTableView:tableView];
++ (ZJCityPickerViewAdapter *)adapterWithTableView:(UITableView *)tableView appearance:(ZJCityPickerAppearance *)appearance dataSource:(ZJCityPickerDataSource *)dataSource{
+    return [[ZJCityPickerViewAdapter alloc] initWithTableView:tableView appearance:appearance dataSource:dataSource];
 }
 
-- (instancetype)initWithTableView:(UITableView *)tableView {
+- (instancetype)initWithTableView:(UITableView *)tableView appearance:(ZJCityPickerAppearance *)appearance dataSource:(ZJCityPickerDataSource *)dataSource{
     self = [super init];
     if (self) {
         _tableView = tableView;
+        _appearance = appearance;
+        _dataSource = dataSource;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:UITableViewHeaderFooterHeaderID];
         [_tableView registerClass:[ZJCityPickerCollectionHeader class] forHeaderFooterViewReuseIdentifier:ZJCityPickerCollectionHeaderReuseID];
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:UITableViewCellReuseID];
+        _tableView.rowHeight = _appearance.rowHeight;
+        _tableView.sectionIndexColor = _appearance.mainColor;
     }
     return self;
 }
@@ -77,21 +82,18 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *title = _dataSource.isShowSearch ? _dataSource.searchCities[indexPath.row] : _dataSource.totalArray[indexPath.section].cityArray[indexPath.row];
+    ZJCityPickerCity *city = _dataSource.isShowSearch ? _dataSource.searchCities[indexPath.row] : _dataSource.totalArray[indexPath.section].cityArray[indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UITableViewCellReuseID forIndexPath:indexPath];
     cell.textLabel.textColor = _appearance.textColor;
     cell.textLabel.font = [UIFont systemFontOfSize:12];
-    cell.textLabel.text = title;
+    cell.textLabel.text = city.name;
     cell.accessoryType = [_dataSource.selectCity isEqualToString:cell.textLabel.text] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.tintColor = _appearance.mainColor;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return _appearance.rowHeight;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return [_appearance headerHeightWithGroupModel:_dataSource.isShowSearch ? nil : _dataSource.totalArray[section]];
 }

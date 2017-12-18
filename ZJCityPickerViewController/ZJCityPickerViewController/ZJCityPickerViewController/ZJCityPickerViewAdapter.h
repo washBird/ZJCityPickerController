@@ -18,8 +18,8 @@
 //UI样式
 @property (nonatomic, strong) ZJCityPickerAppearance *appearance;
 
-+ (ZJCityPickerViewAdapter *)adapterWithTableView:(UITableView *)tableView;
++ (ZJCityPickerViewAdapter *)adapterWithTableView:(UITableView *)tableView appearance:(ZJCityPickerAppearance *)appearance dataSource:(ZJCityPickerDataSource *)dataSource;
 
-- (instancetype)initWithTableView:(UITableView *)tableView;
+- (instancetype)initWithTableView:(UITableView *)tableView appearance:(ZJCityPickerAppearance *)appearance dataSource:(ZJCityPickerDataSource *)dataSource;
 
 @end

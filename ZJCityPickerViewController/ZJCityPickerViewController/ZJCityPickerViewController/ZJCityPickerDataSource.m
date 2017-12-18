@@ -7,6 +7,7 @@
 //
 
 #import "ZJCityPickerDataSource.h"
+#import "ZJCityPickerCity.h"
 
 @implementation ZJCityPickerDataSource
 
@@ -36,6 +37,7 @@
     
     _hotModel = [ZJCityPickerGroupModel hotGroupModel];
     
+    _normalArray = [ZJCityPickerGroupModel normalGroupModelArray];
     [self resetTotalArray];
     _needRefresh = YES;
 }
@@ -63,7 +65,6 @@
     _totalArray = totalArray;
     _indexTitlesArray = [_totalArray valueForKeyPath:@"indexTitle"];
 }
-
 #pragma mark - Setter
 - (void)setHeaderTypesArray:(NSArray *)headerTypesArray {
     if (_headerTypesArray != headerTypesArray) {
