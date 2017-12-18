@@ -14,17 +14,31 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
 
+@property (nonatomic, strong) ZJCityPickerAppearance *appearance;
+
+@property (nonatomic, strong) ZJCityPickerDataSource *dataSource;
+
 @property (nonatomic, strong) ZJCityPickerViewAdapter *adapter;
 
 @end
 
 @implementation ZJCityPickerViewController
++ (instancetype)pickerController {
+    return [[ZJCityPickerViewController alloc] init];
+}
+
++ (instancetype )pickerControllerWithAppearance:(ZJCityPickerAppearance *)apperance dataSource:(ZJCityPickerDataSource *)dataSource {
+    ZJCityPickerViewController *picker = [[ZJCityPickerViewController alloc] init];
+    picker.appearance = apperance;
+    picker.dataSource = dataSource;
+    return picker;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _appearance = [ZJCityPickerAppearance appearance];
     _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView];
-    _adapter.appearance = _appearance;
+    _adapter.appearance = self.appearance;
+    _adapter.dataSource = self.dataSource;
     [self setUpUI];
 }
 
@@ -80,6 +94,20 @@
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
+}
+
+- (ZJCityPickerAppearance *)appearance {
+    if (!_appearance) {
+        _appearance = [ZJCityPickerAppearance appearance];
+    }
+    return _appearance;
+}
+
+- (ZJCityPickerDataSource *)dataSource {
+    if (!_dataSource) {
+        _dataSource = [ZJCityPickerDataSource dataSource];
+    }
+    return _dataSource;
 }
 
 @end

@@ -10,6 +10,10 @@
 
 @implementation ZJCityPickerDataSource
 
++ (instancetype)dataSource {
+    return [[ZJCityPickerDataSource alloc] init];
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -57,8 +61,10 @@
         [totalArray addObjectsFromArray:_normalArray];
     }
     _totalArray = totalArray;
+    _indexTitlesArray = [_totalArray valueForKeyPath:@"indexTitle"];
 }
 
+#pragma mark - Setter
 - (void)setHeaderTypesArray:(NSArray *)headerTypesArray {
     if (_headerTypesArray != headerTypesArray) {
         _headerTypesArray = headerTypesArray.copy;

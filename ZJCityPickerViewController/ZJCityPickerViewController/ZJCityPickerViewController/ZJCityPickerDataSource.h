@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL needRefresh;
 
 @property (nonatomic, strong, readonly) NSArray<ZJCityPickerGroupModel *> *totalArray;
+@property (nonatomic, strong, readonly) NSArray *indexTitlesArray;
 
 // A, B, C, ...
 @property (nonatomic, copy) NSArray<ZJCityPickerGroupModel *> *normalArray;
@@ -35,8 +36,10 @@
 
 
 //搜索
-@property (nonatomic, assign) BOOL isShowSearch;
-@property (nonatomic, copy) NSArray *searchCities;
+@property (nonatomic, assign, readonly) BOOL isShowSearch;
+@property (nonatomic, copy, readonly) NSArray *searchCities;
+
++ (instancetype )dataSource;
 
 //修改热门城市
 - (void)modifyHotCities:(NSArray *)hotCities;

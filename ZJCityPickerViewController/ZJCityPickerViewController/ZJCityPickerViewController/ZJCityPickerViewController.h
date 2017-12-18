@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "ZJCityPickerAppearance.h"
+#import "ZJCityPickerDataSource.h"
 
 @interface ZJCityPickerViewController : UIViewController
 
-@property (nonatomic, strong) ZJCityPickerAppearance *appearance;
++ (instancetype )pickerController;
+
++ (instancetype )pickerControllerWithAppearance:(ZJCityPickerAppearance *)apperance dataSource:(ZJCityPickerDataSource *)dataSource;
 
 @end

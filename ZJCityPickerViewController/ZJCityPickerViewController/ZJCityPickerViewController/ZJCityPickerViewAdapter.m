@@ -17,6 +17,7 @@
 @end
 
 static NSString *const UITableViewHeaderFooterHeaderID = @"UITableViewHeaderFooterHeaderID";
+static NSString *const UITableViewCellReuseID = @"UITableViewCellReuseID";
 static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerCollectionHeaderReuseID";
 
 @implementation ZJCityPickerViewAdapter
@@ -32,18 +33,23 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:UITableViewHeaderFooterHeaderID];
-        [_tableView registerClass:[ZJCityPickerCollectionHeader class] forCellReuseIdentifier:ZJCityPickerCollectionHeaderReuseID];
+        [_tableView registerClass:[ZJCityPickerCollectionHeader class] forHeaderFooterViewReuseIdentifier:ZJCityPickerCollectionHeaderReuseID];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:UITableViewCellReuseID];
     }
     return self;
 }
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _dataSource.totalArray.count;
+    return _dataSource.isShowSearch ? 1 : _dataSource.totalArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    if (_dataSource.isShowSearch) {
+        return _dataSource.searchCities.count;
+    }
+    ZJCityPickerGroupModel *groupModel = _dataSource.totalArray[section];
+    return groupModel.type == ZJCityPickerGroupModelTypeNormal ? groupModel.cityArray.count : 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -65,8 +71,20 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
         return header;
     }
 }
+
+- (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    return _dataSource.isShowSearch ? @[] : _dataSource.indexTitlesArray;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    NSString *title = _dataSource.isShowSearch ? _dataSource.searchCities[indexPath.row] : _dataSource.totalArray[indexPath.section].cityArray[indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UITableViewCellReuseID forIndexPath:indexPath];
+    cell.textLabel.textColor = _appearance.textColor;
+    cell.textLabel.font = [UIFont systemFontOfSize:12];
+    cell.textLabel.text = title;
+    cell.accessoryType = [_dataSource.selectCity isEqualToString:cell.textLabel.text] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.tintColor = _appearance.mainColor;
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
