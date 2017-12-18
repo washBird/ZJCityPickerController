@@ -8,6 +8,7 @@
 
 #import "ZJCityPickerAppearance.h"
 #import "UIColor+ZJHexString.h"
+#import "ZJCityPickerGroupModel.h"
 
 @implementation ZJCityPickerAppearance
 
@@ -41,6 +42,23 @@
 
 - (CGFloat)navHeight {
     return ([[UIApplication sharedApplication] statusBarFrame].size.height + 44);
+}
+
+- (CGFloat)headerHeightWithGroupModel:(ZJCityPickerGroupModel *)groupModel {
+    if (groupModel == nil) {
+        return 0;
+    }
+    if (groupModel.type == ZJCityPickerGroupModelTypeNormal) {
+        return _headerHeight;
+    }
+    return [self calculateHeaderHeightWithItemsCount:groupModel.cityArray.count];
+}
+
+- (CGFloat)calculateHeaderHeightWithItemsCount:(CGFloat)itemsCount {
+    CGFloat sectionHeight = _sectionInset.top + _sectionInset.bottom + _headerHeight;
+    CGFloat columns = (itemsCount - 1) / 3 + 1;
+    CGFloat itemsHeight = columns * _itemHeight + (columns > 0 ? (columns - 1) * _itemMinLineSpace : 0);
+    return itemsHeight + sectionHeight;
 }
 
 @end

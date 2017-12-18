@@ -10,6 +10,7 @@
 #import "ZJCityPickerAppearance.h"
 #import "UIColor+ZJHexString.h"
 #import "ZJCityPickerCollectionHeader.h"
+#import "ZJCityPickerDataSource.h"
 
 @interface ZJCityPickerViewAdapter()
 
@@ -38,7 +39,7 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataArray.count;
+    return _dataSource.totalArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -46,12 +47,12 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    ZJCityPickerGroupModel *groupModel = _dataArray[section];
+    ZJCityPickerGroupModel *groupModel = _dataSource.totalArray[section];
     if (groupModel.type == ZJCityPickerGroupModelTypeNormal) {
         UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:UITableViewHeaderFooterHeaderID];
         //设置为clearcolor无效， 只能设置透明的图片实现透明效果
         header.contentView.backgroundColor = _appearance.backgroundColor;
-        header.textLabel.text = _dataArray[section].title;
+        header.textLabel.text = _dataSource.totalArray[section].title;
         header.textLabel.textColor = _appearance.headerTextColor;
         header.textLabel.font = [UIFont systemFontOfSize:12];
         return header;
@@ -60,7 +61,7 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
         ZJCityPickerCollectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:ZJCityPickerCollectionHeaderReuseID];
         header.model = groupModel;
         header.appearance = _appearance;
-        header.selectedCity  = _selectedCity;
+        header.selectedCity  = _dataSource.selectCity;
         return header;
     }
 }
@@ -74,7 +75,7 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return _appearance.headerHeight;
+    return [_appearance headerHeightWithGroupModel:_dataSource.isShowSearch ? nil : _dataSource.totalArray[section]];
 }
 
 @end

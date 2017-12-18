@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZJCityPickerGroupModel.h"
 
 @interface ZJCityPickerAppearance : NSObject
 
@@ -55,8 +56,10 @@
 //定位失败文字
 @property (nonatomic, copy) NSString *locationErrorTip;
 
-+ (instancetype)appearance;
++ (instancetype )appearance;
 
 - (CGFloat )navHeight;
+
+- (CGFloat )headerHeightWithGroupModel:(ZJCityPickerGroupModel *)groupModel;
 
 @end
