@@ -31,6 +31,9 @@
 //标签正常borderColor
 @property (nonatomic, strong) UIColor *nomalBorderColor;
 
+//头部文字颜色
+@property (nonatomic, strong) UIColor *headerTextColor;
+
 //文字正常颜色
 @property (nonatomic, strong) UIColor *textColor;
 

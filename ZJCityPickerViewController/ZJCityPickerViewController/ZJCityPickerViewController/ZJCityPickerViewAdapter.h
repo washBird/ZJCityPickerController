@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 @class ZJCityPickerAppearance;
+@class ZJCityPickerGroupModel;
 
 @interface ZJCityPickerViewAdapter : NSObject<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) NSArray *dataArray;
+//group model array
+@property (nonatomic, strong) NSArray<ZJCityPickerGroupModel *> *dataArray;
 
 @property (nonatomic, weak) UITableView *tableView;
 
 @property (nonatomic, strong) ZJCityPickerAppearance *appearance;
+
+@property (nonatomic, copy) NSString *selectedCity;
 
 + (ZJCityPickerViewAdapter *)adapterWithTableView:(UITableView *)tableView;
 

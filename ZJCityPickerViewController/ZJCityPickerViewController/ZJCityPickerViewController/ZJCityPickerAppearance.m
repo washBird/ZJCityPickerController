@@ -20,6 +20,7 @@
     if (self) {
         _backgroundColor = [UIColor zj_colorWithHexString:@"f3f3f3"];
         _seperateColor = [UIColor zj_colorWithHexString:@"e6e6e6"];
+        _headerTextColor = [UIColor zj_colorWithHexString:@"7d7d7d"];
         _textColor = [UIColor zj_colorWithHexString:@"7d7d7d"];
         _nomalBorderColor = [UIColor zj_colorWithHexString:@"dddddd"];
         _mainColor = [UIColor zj_colorWithHexString:@"2bc76d"];

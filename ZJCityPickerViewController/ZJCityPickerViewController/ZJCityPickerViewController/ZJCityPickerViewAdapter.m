@@ -9,12 +9,14 @@
 #import "ZJCityPickerViewAdapter.h"
 #import "ZJCityPickerAppearance.h"
 #import "UIColor+ZJHexString.h"
+#import "ZJCityPickerCollectionHeader.h"
 
 @interface ZJCityPickerViewAdapter()
 
 @end
 
 static NSString *const UITableViewHeaderFooterHeaderID = @"UITableViewHeaderFooterHeaderID";
+static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerCollectionHeaderReuseID";
 
 @implementation ZJCityPickerViewAdapter
 
@@ -25,11 +27,11 @@ static NSString *const UITableViewHeaderFooterHeaderID = @"UITableViewHeaderFoot
 - (instancetype)initWithTableView:(UITableView *)tableView {
     self = [super init];
     if (self) {
-        _dataArray = @[@"a",@"b",@"c"];
         _tableView = tableView;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:UITableViewHeaderFooterHeaderID];
+        [_tableView registerClass:[ZJCityPickerCollectionHeader class] forCellReuseIdentifier:ZJCityPickerCollectionHeaderReuseID];
     }
     return self;
 }
@@ -44,12 +46,23 @@ static NSString *const UITableViewHeaderFooterHeaderID = @"UITableViewHeaderFoot
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:UITableViewHeaderFooterHeaderID];
-    header.contentView.backgroundColor = _appearance.backgroundColor;
-    header.textLabel.text = _dataArray[section];
-    header.textLabel.textColor = _appearance.textColor;
-    header.textLabel.font = [UIFont systemFontOfSize:12];
-    return header;
+    ZJCityPickerGroupModel *groupModel = _dataArray[section];
+    if (groupModel.type == ZJCityPickerGroupModelTypeNormal) {
+        UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:UITableViewHeaderFooterHeaderID];
+        //设置为clearcolor无效， 只能设置透明的图片实现透明效果
+        header.contentView.backgroundColor = _appearance.backgroundColor;
+        header.textLabel.text = _dataArray[section].title;
+        header.textLabel.textColor = _appearance.headerTextColor;
+        header.textLabel.font = [UIFont systemFontOfSize:12];
+        return header;
+    }
+    else {
+        ZJCityPickerCollectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:ZJCityPickerCollectionHeaderReuseID];
+        header.model = groupModel;
+        header.appearance = _appearance;
+        header.selectedCity  = _selectedCity;
+        return header;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     return nil;
