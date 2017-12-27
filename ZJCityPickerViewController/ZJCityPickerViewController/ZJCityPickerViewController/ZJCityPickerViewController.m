@@ -151,9 +151,9 @@
 }
 
 - (void)zj_CityPickerLocationNotOpenService {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请到 \"设置->隐私->定位服务\" 开启定位服务" preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:nil];
-    [alert addAction:action];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"去 \"设置->隐私->定位服务\" 开启定位服务" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:cancel];
     [self.navigationController presentViewController:alert animated:YES completion:nil];
 }
 

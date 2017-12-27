@@ -82,8 +82,10 @@
                     if ([cityModel.name containsString:keyword]) {
                         [searchArray addObject:cityModel];
                     }
-                    else if([cityModel.pinyin containsString:keyword]){
-                        [searchArray addObject:cityModel];
+                    else {
+                        if ([self isMatchWithoriginString:cityModel.pinyin matchString:[keyword lowercaseString]]) {
+                            [searchArray addObject:cityModel];
+                        }
                     }
                 }
             }
@@ -95,6 +97,27 @@
             }
         });
     });
+}
+
+- (BOOL)isMatchWithoriginString:(NSString *)originString matchString:(NSString *)matchString {
+    if ([originString containsString:matchString]) {
+        return YES;
+    }
+    NSInteger nowLocation = NSNotFound;
+    NSString *searchString = originString;
+    for (NSInteger index = 0; index < matchString.length; index ++ ) {
+        nowLocation = [searchString rangeOfString:[matchString substringWithRange:NSMakeRange(index, 1)]].location;
+        if (nowLocation == NSNotFound) {
+            return NO;
+        }
+        if (nowLocation == searchString.length - 1) {//匹配到最后一个了
+            return index == matchString.length - 1;
+        }
+        else {
+            searchString = [searchString substringFromIndex:nowLocation + 1];
+        }
+    }
+    return YES;
 }
 #pragma mark - Setter
 - (void)setHeaderTypesArray:(NSArray *)headerTypesArray {
