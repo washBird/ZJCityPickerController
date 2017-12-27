@@ -8,12 +8,13 @@
 
 Pod::Spec.new do |s|
 
-  s.name         = "ZJCityPickerController"
+  s.name         = "ZJCityPickerViewController"
   s.version      = "0.1"
   s.summary      = "china city picker controller"
 
   s.description  = <<-DESC
-  					   china city picker controller
+  					   中国城市选择控制器
+               可以自定义外观和城市数据源
                    DESC
 
   s.homepage     = "https://github.com/washBird/ZJCityPickerController"
@@ -23,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/washBird/ZJCityPickerController.git", :tag => "#{s.version}" }
 
-  s.source_files = "ZJCityPickerController/ZJCityPickerViewController/*.{h,m}"
-  s.resources    = "ZJCityPickerController/ZJCityPickerViewController/ZJCityPickerViewControllerSource.bundle"
+  s.source_files = "ZJCityPickerViewController/ZJCityPickerViewController/*.{h,m}"
+  s.resources    = "ZJCityPickerViewController/ZJCityPickerViewController/ZJCityPickerViewControllerSource.bundle"
 
 end
