@@ -73,7 +73,7 @@
 }
 @end
 
-@interface ZJCityPickerCollectionHeader()<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ZJCityPickerCollectionHeader()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @end
 static NSString *const ZJCityPickerCollectionTitleCellReuseID = @"ZJCityPickerCollectionTitleCellReuseID";
@@ -151,12 +151,14 @@ static NSString *const ZJCityPickerCollectionTitleHeaderReuseID = @"ZJCityPicker
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ZJCityPickerCollectionTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZJCityPickerCollectionTitleCellReuseID forIndexPath:indexPath];
+    cell.titleLabel.textAlignment = NSTextAlignmentCenter;
     if (_model.type == ZJCityPickerGroupModelTypeLocationCity) {
         if (_model.locationState == ZJCityPickerLocateStateLocating) {
             cell.titleLabel.text = _appearance.locatingTip;
         }
         else if (_model.locationState == ZJCityPickerLocateStateFailure) {
             cell.titleLabel.text = _appearance.locationErrorTip;
+            cell.titleLabel.textAlignment = NSTextAlignmentLeft;
         }
         else {
             cell.titleLabel.text = _model.cityArray[indexPath.row];
@@ -178,6 +180,15 @@ static NSString *const ZJCityPickerCollectionTitleHeaderReuseID = @"ZJCityPicker
 }
 
 #pragma mark - UICollectionViewDelegate
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (_model.type == ZJCityPickerGroupModelTypeLocationCity && _model.locationState == ZJCityPickerLocateStateFailure) {
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        return CGSizeMake(width - _appearance.sectionInset.left - _appearance.sectionInset.right , _appearance.itemHeight);
+    }
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+    return flowLayout.itemSize;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
 }

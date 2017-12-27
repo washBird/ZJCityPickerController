@@ -8,8 +8,9 @@
 
 #import "ZJCityPickerViewController.h"
 #import "ZJCityPickerViewAdapter.h"
+#import "ZJCityPickerLocation.h"
 
-@interface ZJCityPickerViewController ()<UISearchBarDelegate>
+@interface ZJCityPickerViewController ()<UISearchBarDelegate, ZJCityPickerLocationDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -19,6 +20,8 @@
 @property (nonatomic, strong) ZJCityPickerDataSource *dataSource;
 
 @property (nonatomic, strong) ZJCityPickerViewAdapter *adapter;
+
+@property (nonatomic, strong) ZJCityPickerLocation *location;
 
 @end
 
@@ -36,25 +39,69 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self appearance];
-    [self dataSource];
-    _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView appearance:_appearance dataSource:_dataSource];
     [self setUpUI];
+    [self startLocation];
 }
 
 - (void)setUpUI {
     self.navigationItem.title = @"城市选择";
-    
-    self.view.backgroundColor = _appearance.backgroundColor;
+    self.view.backgroundColor = self.appearance.backgroundColor;
+    _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView appearance:self.appearance dataSource:self.dataSource];
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
     [self.tableView reloadData];
+}
+
+- (void)startLocation {
+    if (!_location) {
+        _location = [ZJCityPickerLocation locationWithDelegate:self];
+    }
+    _dataSource.locationModel.locationState = ZJCityPickerLocateStateLocating;
+    [self.tableView reloadData];
+    [_location startLocation];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.searchBar.frame = CGRectMake(10, _appearance.navHeight + 6, self.view.frame.size.width - 20, 28);
     self.tableView.frame = CGRectMake(0, _appearance.navHeight + 40, self.view.frame.size.width, self.view.frame.size.height - 28);
+}
+
+#pragma mark - ZJCityPickerLocationDelegate
+- (void)zj_CityPickerLocationSuccessWithCity:(NSString *)city {
+    if ([city hasSuffix:@"市"]) {
+        city = [city substringToIndex:city.length - 1];
+    }
+    _dataSource.locationModel.locationState = ZJCityPickerLocateStateSuccess;
+    _dataSource.locationModel.cityArray = @[city];
+    [self.tableView reloadData];
+}
+
+- (void)zj_CityPickerLocationFailureLocation {
+    _dataSource.locationModel.locationState = ZJCityPickerLocateStateFailure;
+    [self.tableView reloadData];
+}
+
+- (void)zj_CityPickerLocationDidDeny {
+    NSString *message = [NSString stringWithFormat:@"请到 \"设置->%@->位置\" 开启定位服务的访问权限",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *settingAction = [UIAlertAction actionWithTitle:@"去设置" style:(UIAlertActionStyleDestructive) handler:^(UIAlertAction * _Nonnull action) {
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }];
+    UIAlertAction *knowAction = [UIAlertAction actionWithTitle:@"知道了" style:(UIAlertActionStyleDefault) handler:nil];
+    [alert addAction:knowAction];
+    [alert addAction:settingAction];
+    [self.navigationController presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)zj_CityPickerLocationNotOpenService {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请到 \"设置->隐私->定位服务\" 开启定位服务" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:nil];
+    [alert addAction:action];
+    [self.navigationController presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Getter

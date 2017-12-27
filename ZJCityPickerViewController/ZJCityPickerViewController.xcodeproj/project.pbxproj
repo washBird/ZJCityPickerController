@@ -21,6 +21,7 @@
 		841659191FE3D553009C9CAD /* ZJCityPickerViewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 841659181FE3D553009C9CAD /* ZJCityPickerViewAdapter.m */; };
 		84BECF3A1FE7ABB0009ED468 /* ZJCityPickerViewControllerSource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84BECF391FE7ABB0009ED468 /* ZJCityPickerViewControllerSource.bundle */; };
 		84BECF3D1FE7B06E009ED468 /* ZJCityPickerCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BECF3C1FE7B06E009ED468 /* ZJCityPickerCity.m */; };
+		84BECF401FE7BB5D009ED468 /* ZJCityPickerLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BECF3F1FE7BB5D009ED468 /* ZJCityPickerLocation.m */; };
 		84E52EFC1FE752BC00E6D77F /* ZJCityPickerCollectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E52EFB1FE752BC00E6D77F /* ZJCityPickerCollectionHeader.m */; };
 		84E52EFF1FE7583900E6D77F /* ZJCityPickerGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E52EFE1FE7583900E6D77F /* ZJCityPickerGroupModel.m */; };
 		84E52F021FE76C3000E6D77F /* ZJCityPickerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E52F011FE76C3000E6D77F /* ZJCityPickerDataSource.m */; };
@@ -71,6 +72,8 @@
 		84BECF391FE7ABB0009ED468 /* ZJCityPickerViewControllerSource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZJCityPickerViewControllerSource.bundle; sourceTree = "<group>"; };
 		84BECF3B1FE7B06E009ED468 /* ZJCityPickerCity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCityPickerCity.h; sourceTree = "<group>"; };
 		84BECF3C1FE7B06E009ED468 /* ZJCityPickerCity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCityPickerCity.m; sourceTree = "<group>"; };
+		84BECF3E1FE7BB5D009ED468 /* ZJCityPickerLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCityPickerLocation.h; sourceTree = "<group>"; };
+		84BECF3F1FE7BB5D009ED468 /* ZJCityPickerLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCityPickerLocation.m; sourceTree = "<group>"; };
 		84E52EFA1FE752BC00E6D77F /* ZJCityPickerCollectionHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCityPickerCollectionHeader.h; sourceTree = "<group>"; };
 		84E52EFB1FE752BC00E6D77F /* ZJCityPickerCollectionHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCityPickerCollectionHeader.m; sourceTree = "<group>"; };
 		84E52EFD1FE7583900E6D77F /* ZJCityPickerGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCityPickerGroupModel.h; sourceTree = "<group>"; };
@@ -176,6 +179,8 @@
 				84E52EFE1FE7583900E6D77F /* ZJCityPickerGroupModel.m */,
 				84BECF3B1FE7B06E009ED468 /* ZJCityPickerCity.h */,
 				84BECF3C1FE7B06E009ED468 /* ZJCityPickerCity.m */,
+				84BECF3E1FE7BB5D009ED468 /* ZJCityPickerLocation.h */,
+				84BECF3F1FE7BB5D009ED468 /* ZJCityPickerLocation.m */,
 				841653901FE374D5009C9CAD /* UIColor+ZJHexString.h */,
 				841653911FE374D5009C9CAD /* UIColor+ZJHexString.m */,
 				84BECF391FE7ABB0009ED468 /* ZJCityPickerViewControllerSource.bundle */,
@@ -318,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8416535C1FE36C5B009C9CAD /* ViewController.m in Sources */,
+				84BECF401FE7BB5D009ED468 /* ZJCityPickerLocation.m in Sources */,
 				84E52F021FE76C3000E6D77F /* ZJCityPickerDataSource.m in Sources */,
 				84E52EFC1FE752BC00E6D77F /* ZJCityPickerCollectionHeader.m in Sources */,
 				8416538C1FE36E44009C9CAD /* ZJCityPickerViewController.m in Sources */,
