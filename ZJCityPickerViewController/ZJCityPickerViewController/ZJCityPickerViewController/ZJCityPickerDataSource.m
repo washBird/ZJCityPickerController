@@ -65,6 +65,37 @@
     _totalArray = totalArray;
     _indexTitlesArray = [_totalArray valueForKeyPath:@"indexTitle"];
 }
+
+#pragma mark - Search
+- (void)searchCityWithKeyword:(NSString *)keyword completion:(void (^)(NSArray *))completion {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{//异步查询
+        if (keyword.length == 0 ) {
+            _isShowSearch = NO;
+            _searchCities = nil;
+        }
+        else {
+            _isShowSearch = YES;
+            NSMutableArray *searchArray = [NSMutableArray array];
+            for (ZJCityPickerGroupModel *group in self.normalArray) {
+                for (ZJCityPickerCity *cityModel in group.cityArray) {
+                    //正则匹配
+                    if ([cityModel.name containsString:keyword]) {
+                        [searchArray addObject:cityModel];
+                    }
+                    else if([cityModel.pinyin containsString:keyword]){
+                        [searchArray addObject:cityModel];
+                    }
+                }
+            }
+            _searchCities = searchArray.copy;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion != nil) {
+                completion(_searchCities);
+            }
+        });
+    });
+}
 #pragma mark - Setter
 - (void)setHeaderTypesArray:(NSArray *)headerTypesArray {
     if (_headerTypesArray != headerTypesArray) {

@@ -41,6 +41,11 @@
     [super viewDidLoad];
     [self setUpUI];
     [self startLocation];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)setUpUI {
@@ -66,6 +71,34 @@
     [super viewDidLayoutSubviews];
     self.searchBar.frame = CGRectMake(10, _appearance.navHeight + 6, self.view.frame.size.width - 20, 28);
     self.tableView.frame = CGRectMake(0, _appearance.navHeight + 40, self.view.frame.size.width, self.view.frame.size.height - 28);
+}
+
+#pragma mark -  UISearchBarDelegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [_dataSource searchCityWithKeyword:searchText completion:^(NSArray *searchArray) {
+        [self.tableView reloadData];
+    }];
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
+    return YES;
+}
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO animated:YES];
+    return YES;
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchBar.text = @"";
+    [self searchBar:searchBar textDidChange:@""];
+    [searchBar resignFirstResponder];
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+- (void)keyboardWillChange:(NSNotification *)note {
+
 }
 
 #pragma mark - ZJCityPickerViewAdapterDelegate

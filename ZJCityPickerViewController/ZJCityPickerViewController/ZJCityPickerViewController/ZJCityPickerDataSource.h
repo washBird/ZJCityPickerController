@@ -44,6 +44,6 @@
 //修改热门城市
 - (void)modifyHotCities:(NSArray *)hotCities;
 
-//- (NSArray *)searchArrayWithKeyword:(NSString *)keyword;
+- (void)searchCityWithKeyword:(NSString *)keyword completion:(void (^)(NSArray *searchArray))completion;
 
 @end
