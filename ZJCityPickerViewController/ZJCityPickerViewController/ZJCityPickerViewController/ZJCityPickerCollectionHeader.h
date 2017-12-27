@@ -10,6 +10,12 @@
 #import "ZJCityPickerAppearance.h"
 #import "ZJCityPickerGroupModel.h"
 
+@protocol ZJCityPickerCollectionHeaderDelegate<NSObject>
+@optional
+- (void)zj_CityPickerCollectionHeaderClickIndex:(NSInteger )index city:(NSString *)city;
+- (void)zj_CityPickerCollectionHeaderClickRefresh;
+@end
+
 @interface ZJCityPickerCollectionTitleCell : UICollectionViewCell
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIColor *borderColor;
@@ -26,5 +32,7 @@
 @property (nonatomic, strong) ZJCityPickerGroupModel *model;
 
 @property (nonatomic, copy) NSString *selectedCity;
+
+@property (nonatomic, weak) id<ZJCityPickerCollectionHeaderDelegate> delegate;
 
 @end

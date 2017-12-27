@@ -12,6 +12,8 @@
 
 @interface ZJCityPickerViewController : UIViewController
 
+@property (nonatomic, copy) void(^selectCityBlock)(NSString *);
+
 + (instancetype )pickerController;
 
 + (instancetype )pickerControllerWithAppearance:(ZJCityPickerAppearance *)apperance dataSource:(ZJCityPickerDataSource *)dataSource;

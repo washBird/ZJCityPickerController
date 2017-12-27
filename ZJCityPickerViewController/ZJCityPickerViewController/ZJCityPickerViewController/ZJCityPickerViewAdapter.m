@@ -13,7 +13,7 @@
 #import "ZJCityPickerDataSource.h"
 #import "ZJCityPickerCity.h"
 
-@interface ZJCityPickerViewAdapter()
+@interface ZJCityPickerViewAdapter()<ZJCityPickerCollectionHeaderDelegate>
 
 @end
 
@@ -73,6 +73,7 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
         header.model = groupModel;
         header.appearance = _appearance;
         header.selectedCity  = _dataSource.selectCity;
+        header.delegate = self;
         return header;
     }
 }
@@ -96,6 +97,26 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return [_appearance headerHeightWithGroupModel:_dataSource.isShowSearch ? nil : _dataSource.totalArray[section]];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ZJCityPickerCity *cityModel = _dataSource.isShowSearch ? _dataSource.searchCities[indexPath.row] : _dataSource.totalArray[indexPath.section].cityArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(zj_CityPickerViewAdapterSelectCity:)]) {
+        [self.delegate zj_CityPickerViewAdapterSelectCity:cityModel.name];
+    }
+}
+
+#pragma mark - ZJCityPickerCollectionHeaderDelegate
+- (void)zj_CityPickerCollectionHeaderClickRefresh {
+    if ([self.delegate respondsToSelector:@selector(zj_CityPickerViewAdapterLocationRefresh)]) {
+        [self.delegate zj_CityPickerViewAdapterLocationRefresh];
+    }
+}
+
+- (void)zj_CityPickerCollectionHeaderClickIndex:(NSInteger)index city:(NSString *)city {
+    if ([self.delegate respondsToSelector:@selector(zj_CityPickerViewAdapterSelectCity:)]) {
+        [self.delegate zj_CityPickerViewAdapterSelectCity:city];
+    }
 }
 
 @end

@@ -10,7 +10,7 @@
 #import "ZJCityPickerViewAdapter.h"
 #import "ZJCityPickerLocation.h"
 
-@interface ZJCityPickerViewController ()<UISearchBarDelegate, ZJCityPickerLocationDelegate>
+@interface ZJCityPickerViewController ()<UISearchBarDelegate, ZJCityPickerLocationDelegate, ZJCityPickerViewAdapterDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -47,6 +47,7 @@
     self.navigationItem.title = @"城市选择";
     self.view.backgroundColor = self.appearance.backgroundColor;
     _adapter = [ZJCityPickerViewAdapter adapterWithTableView:self.tableView appearance:self.appearance dataSource:self.dataSource];
+    _adapter.delegate = self;
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
     [self.tableView reloadData];
@@ -67,6 +68,18 @@
     self.tableView.frame = CGRectMake(0, _appearance.navHeight + 40, self.view.frame.size.width, self.view.frame.size.height - 28);
 }
 
+#pragma mark - ZJCityPickerViewAdapterDelegate
+- (void)zj_CityPickerViewAdapterLocationRefresh {
+    [self startLocation];
+}
+- (void)zj_CityPickerViewAdapterSelectCity:(NSString *)selectCity {
+    self.dataSource.selectCity = selectCity;
+    [self.tableView reloadData];
+    if (self.selectCityBlock) {
+        self.selectCityBlock(selectCity);
+        self.selectCityBlock = nil;
+    }
+}
 #pragma mark - ZJCityPickerLocationDelegate
 - (void)zj_CityPickerLocationSuccessWithCity:(NSString *)city {
     if ([city hasSuffix:@"市"]) {

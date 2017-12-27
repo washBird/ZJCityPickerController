@@ -10,13 +10,21 @@
 @class ZJCityPickerAppearance;
 @class ZJCityPickerDataSource;
 
+@protocol ZJCityPickerViewAdapterDelegate<NSObject>
+@optional
+- (void)zj_CityPickerViewAdapterLocationRefresh;
+- (void)zj_CityPickerViewAdapterSelectCity:(NSString *)selectCity;
+@end
+
 @interface ZJCityPickerViewAdapter : NSObject<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) ZJCityPickerDataSource *dataSource;
-
 @property (nonatomic, weak) UITableView *tableView;
+
+@property (nonatomic, strong) ZJCityPickerDataSource *dataSource;
 //UI样式
 @property (nonatomic, strong) ZJCityPickerAppearance *appearance;
+
+@property (nonatomic, weak) id<ZJCityPickerViewAdapterDelegate> delegate;
 
 + (ZJCityPickerViewAdapter *)adapterWithTableView:(UITableView *)tableView appearance:(ZJCityPickerAppearance *)appearance dataSource:(ZJCityPickerDataSource *)dataSource;
 

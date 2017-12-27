@@ -108,6 +108,7 @@
 
 - (void)setSelectCity:(NSString *)selectCity {
     if (![selectCity isEqualToString:_selectCity]) {
+        _selectCity = selectCity;
         if (_historyModel.cityArray.count > 0) {
             NSMutableArray *array = [NSMutableArray arrayWithObject:selectCity];
             for (NSString *lastCity in _historyModel.cityArray) {

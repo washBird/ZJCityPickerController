@@ -152,6 +152,7 @@ static NSString *const ZJCityPickerCollectionTitleHeaderReuseID = @"ZJCityPicker
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ZJCityPickerCollectionTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZJCityPickerCollectionTitleCellReuseID forIndexPath:indexPath];
     cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+    cell.contentView.backgroundColor = [UIColor whiteColor];
     if (_model.type == ZJCityPickerGroupModelTypeLocationCity) {
         if (_model.locationState == ZJCityPickerLocateStateLocating) {
             cell.titleLabel.text = _appearance.locatingTip;
@@ -159,6 +160,7 @@ static NSString *const ZJCityPickerCollectionTitleHeaderReuseID = @"ZJCityPicker
         else if (_model.locationState == ZJCityPickerLocateStateFailure) {
             cell.titleLabel.text = _appearance.locationErrorTip;
             cell.titleLabel.textAlignment = NSTextAlignmentLeft;
+            cell.contentView.backgroundColor = [UIColor clearColor];
         }
         else {
             cell.titleLabel.text = _model.cityArray[indexPath.row];
@@ -169,6 +171,9 @@ static NSString *const ZJCityPickerCollectionTitleHeaderReuseID = @"ZJCityPicker
     }
     cell.titleLabel.textColor = [_selectedCity isEqualToString:cell.titleLabel.text]  ? _appearance.mainColor : _appearance.textColor;
     cell.borderColor = [_selectedCity isEqualToString:cell.titleLabel.text] ? _appearance.mainColor : _appearance.nomalBorderColor;
+    if (_model.type == ZJCityPickerGroupModelTypeLocationCity && _model.locationState == ZJCityPickerLocateStateFailure) {
+        cell.borderColor = [UIColor clearColor];
+    }
     return cell;
 }
 
@@ -190,7 +195,16 @@ static NSString *const ZJCityPickerCollectionTitleHeaderReuseID = @"ZJCityPicker
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (_model.locationState == ZJCityPickerLocateStateFailure) {
+        if ([self.delegate respondsToSelector:@selector(zj_CityPickerCollectionHeaderClickRefresh)]) {
+            [self.delegate zj_CityPickerCollectionHeaderClickRefresh];
+        }
+    }
+    else if(_model.locationState == ZJCityPickerLocateStateNone || _model.locationState == ZJCityPickerLocateStateSuccess) {
+        if ([self.delegate respondsToSelector:@selector(zj_CityPickerCollectionHeaderClickIndex:city:)]) {
+            [self.delegate zj_CityPickerCollectionHeaderClickIndex:indexPath.row city:_model.cityArray[indexPath.row]];
+        }
+    }
 }
 
 @end
