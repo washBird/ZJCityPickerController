@@ -14,6 +14,7 @@
 @optional
 - (void)zj_CityPickerViewAdapterLocationRefresh;
 - (void)zj_CityPickerViewAdapterSelectCity:(NSString *)selectCity;
+- (void)zj_CityPickerViewScrollViewBeginDragging;
 @end
 
 @interface ZJCityPickerViewAdapter : NSObject<UITableViewDelegate, UITableViewDataSource>

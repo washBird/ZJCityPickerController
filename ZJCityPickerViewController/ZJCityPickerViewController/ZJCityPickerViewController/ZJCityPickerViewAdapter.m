@@ -12,14 +12,15 @@
 #import "ZJCityPickerCollectionHeader.h"
 #import "ZJCityPickerDataSource.h"
 #import "ZJCityPickerCity.h"
+#import "ZJCityPickerNormalHeader.h"
 
 @interface ZJCityPickerViewAdapter()<ZJCityPickerCollectionHeaderDelegate>
 
 @end
 
-static NSString *const UITableViewHeaderFooterHeaderID = @"UITableViewHeaderFooterHeaderID";
 static NSString *const UITableViewCellReuseID = @"UITableViewCellReuseID";
 static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerCollectionHeaderReuseID";
+static NSString *const ZJCityPickerNormalHeaderReuseID = @"ZJCityPickerNormalHeaderReuseID";
 
 @implementation ZJCityPickerViewAdapter
 
@@ -35,7 +36,7 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
         _dataSource = dataSource;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:UITableViewHeaderFooterHeaderID];
+        [_tableView registerClass:[ZJCityPickerNormalHeader class] forHeaderFooterViewReuseIdentifier:ZJCityPickerNormalHeaderReuseID];
         [_tableView registerClass:[ZJCityPickerCollectionHeader class] forHeaderFooterViewReuseIdentifier:ZJCityPickerCollectionHeaderReuseID];
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:UITableViewCellReuseID];
         _tableView.rowHeight = _appearance.rowHeight;
@@ -60,12 +61,13 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     ZJCityPickerGroupModel *groupModel = _dataSource.totalArray[section];
     if (groupModel.type == ZJCityPickerGroupModelTypeNormal) {
-        UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:UITableViewHeaderFooterHeaderID];
+        ZJCityPickerNormalHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:ZJCityPickerNormalHeaderReuseID];
         //设置为clearcolor无效， 只能设置透明的图片实现透明效果
         header.contentView.backgroundColor = _appearance.backgroundColor;
-        header.textLabel.text = _dataSource.totalArray[section].title;
-        header.textLabel.textColor = _appearance.headerTextColor;
-        header.textLabel.font = [UIFont systemFontOfSize:12];
+        header.titleLabel.text = _dataSource.totalArray[section].title;
+        header.titleLabel.textColor = _appearance.headerTextColor;
+        header.titleLabel.font = [UIFont systemFontOfSize:12];
+        header.seperateColor = _appearance.seperateColor;
         return header;
     }
     else {
@@ -106,6 +108,11 @@ static NSString *const ZJCityPickerCollectionHeaderReuseID = @"ZJCityPickerColle
     }
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if ([self.delegate respondsToSelector:@selector(zj_CityPickerViewScrollViewBeginDragging)]) {
+        [self.delegate zj_CityPickerViewScrollViewBeginDragging];
+    }
+}
 #pragma mark - ZJCityPickerCollectionHeaderDelegate
 - (void)zj_CityPickerCollectionHeaderClickRefresh {
     if ([self.delegate respondsToSelector:@selector(zj_CityPickerViewAdapterLocationRefresh)]) {

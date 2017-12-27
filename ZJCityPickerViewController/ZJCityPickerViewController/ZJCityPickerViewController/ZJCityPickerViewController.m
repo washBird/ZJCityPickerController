@@ -47,11 +47,6 @@
     else {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)setUpUI {
@@ -98,16 +93,6 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
 }
-
-- (void)keyboardWillChange:(NSNotification *)note {
-    NSTimeInterval duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    CGFloat addHeight = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y - [note.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].origin.y;
-    CGRect frame = self.tableView.frame;
-    frame.size.height += addHeight;
-    [UIView animateWithDuration:duration animations:^{
-        self.tableView.frame = frame;
-    }];
-}
 #pragma mark - ZJCityPickerViewAdapterDelegate
 - (void)zj_CityPickerViewAdapterLocationRefresh {
     [self startLocation];
@@ -118,6 +103,11 @@
     if (self.selectCityBlock) {
         self.selectCityBlock(selectCity);
         self.selectCityBlock = nil;
+    }
+}
+- (void)zj_CityPickerViewScrollViewBeginDragging {
+    if ([self.searchBar isFirstResponder]) {
+        [self.searchBar resignFirstResponder];
     }
 }
 #pragma mark - ZJCityPickerLocationDelegate
