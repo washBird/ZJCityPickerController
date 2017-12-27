@@ -41,6 +41,12 @@
     [super viewDidLoad];
     [self setUpUI];
     [self startLocation];
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
@@ -55,6 +61,8 @@
     _adapter.delegate = self;
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
+    self.searchBar.frame = CGRectMake(10, _appearance.navHeight + 6, self.view.frame.size.width - 20, 28);
+    self.tableView.frame = CGRectMake(0, _appearance.navHeight + 40, self.view.frame.size.width, self.view.frame.size.height - _appearance.navHeight - 40);
     [self.tableView reloadData];
 }
 
@@ -65,12 +73,6 @@
     _dataSource.locationModel.locationState = ZJCityPickerLocateStateLocating;
     [self.tableView reloadData];
     [_location startLocation];
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    self.searchBar.frame = CGRectMake(10, _appearance.navHeight + 6, self.view.frame.size.width - 20, 28);
-    self.tableView.frame = CGRectMake(0, _appearance.navHeight + 40, self.view.frame.size.width, self.view.frame.size.height - 28);
 }
 
 #pragma mark -  UISearchBarDelegate
@@ -98,9 +100,14 @@
 }
 
 - (void)keyboardWillChange:(NSNotification *)note {
-
+    NSTimeInterval duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    CGFloat addHeight = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y - [note.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].origin.y;
+    CGRect frame = self.tableView.frame;
+    frame.size.height += addHeight;
+    [UIView animateWithDuration:duration animations:^{
+        self.tableView.frame = frame;
+    }];
 }
-
 #pragma mark - ZJCityPickerViewAdapterDelegate
 - (void)zj_CityPickerViewAdapterLocationRefresh {
     [self startLocation];
