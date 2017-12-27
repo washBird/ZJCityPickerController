@@ -56,7 +56,7 @@
 
 - (CGFloat)calculateHeaderHeightWithItemsCount:(NSInteger )itemsCount {
     CGFloat sectionHeight = _sectionInset.top + _sectionInset.bottom + _headerHeight;
-    CGFloat columns = (itemsCount - 1) / 3 + 1;
+    CGFloat columns = (itemsCount - 1) / _itemsOfLine + 1;
     CGFloat itemsHeight = columns * _itemHeight + (columns > 0 ? (columns - 1) * _itemMinLineSpace : 0);
     return itemsHeight + sectionHeight;
 }

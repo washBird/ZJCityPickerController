@@ -11,8 +11,6 @@
 
 @interface ZJCityPickerDataSource : NSObject
 
-@property (nonatomic, assign) BOOL needRefresh;
-
 @property (nonatomic, strong, readonly) NSArray<ZJCityPickerGroupModel *> *totalArray;
 @property (nonatomic, strong, readonly) NSArray *indexTitlesArray;
 
@@ -40,6 +38,8 @@
 @property (nonatomic, copy, readonly) NSArray *searchCities;
 
 + (instancetype )dataSource;
+
+- (void)handleSelectedCity:(NSString *)city;
 
 //修改热门城市
 - (void)modifyHotCities:(NSArray *)hotCities;

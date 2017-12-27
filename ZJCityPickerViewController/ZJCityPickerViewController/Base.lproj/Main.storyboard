@@ -36,6 +36,12 @@
                                     <action selector="presentClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PD2-WY-fmE"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRN-hN-X3S">
+                                <rect key="frame" x="116" y="374" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -43,11 +49,16 @@
                             <constraint firstItem="b5W-RY-9yK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="6Hq-EE-O9V"/>
                             <constraint firstItem="Mfu-2g-S1X" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="AcP-kh-4Hn"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Mfu-2g-S1X" secondAttribute="trailingMargin" id="CKg-ok-5BU"/>
+                            <constraint firstItem="kRN-hN-X3S" firstAttribute="top" secondItem="Mfu-2g-S1X" secondAttribute="bottom" constant="80" id="Cmv-zi-g0B"/>
+                            <constraint firstItem="kRN-hN-X3S" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="QFX-aU-sQP"/>
                             <constraint firstItem="b5W-RY-9yK" firstAttribute="top" secondItem="BA1-an-Duf" secondAttribute="bottom" constant="100" id="YHa-cE-38o"/>
                             <constraint firstItem="Mfu-2g-S1X" firstAttribute="top" secondItem="BA1-an-Duf" secondAttribute="bottom" constant="200" id="jfS-sO-Too"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4nk-hd-fQf"/>
+                    <connections>
+                        <outlet property="resultLabel" destination="kRN-hN-X3S" id="OgL-eu-uq9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

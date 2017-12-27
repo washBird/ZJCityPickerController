@@ -31,15 +31,17 @@
     
     NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask,YES) firstObject];
     _historyPath = [path stringByAppendingPathComponent:@"ZJCityHistoryList"];
-    _maxHistoryCount = 3;
     _historyModel = [ZJCityPickerGroupModel historyGroupModel];
+    _maxHistoryCount = 3;
     _historyModel.cityArray = [NSArray arrayWithContentsOfFile:_historyPath];
+    if (_historyModel.cityArray.count > _maxHistoryCount) {
+        _historyModel.cityArray = [_historyModel.cityArray subarrayWithRange:NSMakeRange(0, _maxHistoryCount)];
+    }
     
     _hotModel = [ZJCityPickerGroupModel hotGroupModel];
     
     _normalArray = [ZJCityPickerGroupModel normalGroupModelArray];
     [self resetTotalArray];
-    _needRefresh = YES;
 }
 
 - (void)resetTotalArray {
@@ -124,7 +126,6 @@
     if (_headerTypesArray != headerTypesArray) {
         _headerTypesArray = headerTypesArray.copy;
         [self resetTotalArray];
-        _needRefresh = YES;
     }
 }
 
@@ -132,14 +133,12 @@
     if (_normalArray != normalArray) {
         _normalArray = normalArray.copy;
         [self resetTotalArray];
-        _needRefresh = YES;
     }
 }
 
 - (void)modifyHotCities:(NSArray *)hotCities {
     if (_hotModel) {
         _hotModel.cityArray = hotCities;
-        _needRefresh = YES;
     }
 }
 
@@ -147,24 +146,26 @@
     if (historyPath != nil && ![historyPath isEqualToString:_historyPath]) {
         _historyPath = historyPath;
         _historyModel.cityArray = [NSArray arrayWithContentsOfFile:_historyPath];
-        _needRefresh = YES;
     }
 }
 
 - (void)setMaxHistoryCount:(NSUInteger)maxHistoryCount {
-    if (maxHistoryCount != _maxHistoryCount && _historyModel.cityArray.count > maxHistoryCount) {
+    if (maxHistoryCount != _maxHistoryCount ) {
         _maxHistoryCount = maxHistoryCount;
-        _historyModel.cityArray = [_historyModel.cityArray subarrayWithRange:NSMakeRange(0, _maxHistoryCount)];
-        [_historyModel.cityArray writeToFile:_historyPath atomically:YES];
-        _needRefresh = YES;
+        _historyModel.cityArray = [NSArray arrayWithContentsOfFile:_historyPath];
+        if (_historyModel.cityArray.count > maxHistoryCount) {
+            _historyModel.cityArray = [_historyModel.cityArray subarrayWithRange:NSMakeRange(0, _maxHistoryCount)];
+        }
     }
+    
 }
 
-- (void)setSelectCity:(NSString *)selectCity {
-    if (![selectCity isEqualToString:_selectCity]) {
-        _selectCity = selectCity;
+
+- (void)handleSelectedCity:(NSString *)city {
+    if (![city isEqualToString:_selectCity]) {
+        _selectCity = city;
         if (_historyModel.cityArray.count > 0) {
-            NSMutableArray *array = [NSMutableArray arrayWithObject:selectCity];
+            NSMutableArray *array = [NSMutableArray arrayWithObject:city];
             for (NSString *lastCity in _historyModel.cityArray) {
                 if (![array containsObject:lastCity]) {
                     [array addObject:lastCity];
@@ -182,7 +183,6 @@
             }
         }
         [_historyModel.cityArray writeToFile:_historyPath atomically:YES];
-        _needRefresh = YES;
     }
 }
 

@@ -39,6 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self updateNavigationBar];
     [self setUpUI];
     [self startLocation];
     if (@available(iOS 11.0, *)) {
@@ -47,6 +48,17 @@
     else {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
+}
+
+- (void)updateNavigationBar {
+    if (self.navigationController && self.navigationController.viewControllers.firstObject == self) {//present
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:(UIBarButtonItemStylePlain) target:self action:@selector(navigationCloseClick)];
+        self.navigationItem.leftBarButtonItem = item;
+    }
+}
+
+- (void)navigationCloseClick {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setUpUI {
@@ -62,6 +74,9 @@
 }
 
 - (void)startLocation {
+    if (![_dataSource.headerTypesArray containsObject:@(ZJCityPickerGroupModelTypeLocationCity)]) {
+        return;
+    }
     if (!_location) {
         _location = [ZJCityPickerLocation locationWithDelegate:self];
     }
@@ -98,7 +113,7 @@
     [self startLocation];
 }
 - (void)zj_CityPickerViewAdapterSelectCity:(NSString *)selectCity {
-    self.dataSource.selectCity = selectCity;
+    [self.dataSource handleSelectedCity:selectCity];
     [self.tableView reloadData];
     if (self.selectCityBlock) {
         self.selectCityBlock(selectCity);
